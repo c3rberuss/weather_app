@@ -17,6 +17,8 @@ dependencies:
     sdk: flutter
   location: ^1.4.1
   http:
+  font_awesome_flutter: ^8.2.0
+  auto_size_text: ^0.3.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,6 +42,27 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+  assets:
+    - assets/images/soleado_01.png
+    - assets/images/soleado_05.png
+    - assets/images/noche_despejada_01.png
+    - assets/images/nublado_dia_01.png
+    - assets/images/nublado_noche_01.png
+    - assets/images/nubes_01.png
+    - assets/images/nubes_01.png
+    - assets/images/nubes_02.png
+    - assets/images/nubes_02.png
+    - assets/images/lluvia_01.png
+    - assets/images/lluvia_01.png
+    - assets/images/lluvia_06.png
+    - assets/images/lluvia_03.png
+    - assets/images/tormenta_01.png
+    - assets/images/tormenta_01.png
+    - assets/images/lluvia_05.png
+    - assets/images/lluvia_05.png
+    - assets/images/viento_01.png
+    - assets/images/viento_01.png
+
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:location/location.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/ui/header.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -55,41 +57,78 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Weather App",
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("Weather App"),
-          ),
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FutureBuilder<Weather>(
-                future: clima,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: <Widget>[
-                        Text("Nombre: ${snapshot.data.nombre}"),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Clima: ${snapshot.data.main}"),
-                            Image.network(snapshot.data.icon)
-                          ],
+        children: <Widget>[
+          Header(clima: clima),
+          FutureBuilder<Weather>(
+            future: clima,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(
+                          FontAwesomeIcons.temperatureLow,
+                          color: Color(0xFF74b9ff),
                         ),
-                        Text('Temperatura: ${snapshot.data.temp}ºC')
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
+                        title: Text("Minimum temperature"),
+                        trailing: Text("${snapshot.data.tempMin.floor()}°C"),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Developed By"),
+                                  content: Text("Josué Amaya - @c3rberuss"),
+                                  actions: <Widget>[
+                                    // usually buttons at the bottom of the dialog
+                                    new FlatButton(
+                                      child: new Text("Close"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(
+                          FontAwesomeIcons.temperatureHigh,
+                          color: Color(0xFFff7675),
+                        ),
+                        title: Text("Maximum temperature"),
+                        trailing: Text("${snapshot.data.tempMax.floor()}°C"),
+                      )
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
 
-                  return CircularProgressIndicator();
-                },
-              ),
-            ],
-          )),
+              return CircularProgressIndicator();
+            },
+          ),
+        ],
+      )),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    locationSubscription.cancel();
   }
 
   void initPlatformState() async {
